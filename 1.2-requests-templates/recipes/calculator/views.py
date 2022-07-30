@@ -19,7 +19,6 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
-
 def omlet(request):
 
     dish = 'omlet'
