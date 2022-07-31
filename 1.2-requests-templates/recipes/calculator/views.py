@@ -19,6 +19,7 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
+
 def omlet(request):
 
     dish = 'omlet'
@@ -62,4 +63,3 @@ def buter(request):
       'recipe': choice, 'persons': serve, 'dish': 'бутерброд'
     }
     return render(request, 'calculator/index.html', context)
-
