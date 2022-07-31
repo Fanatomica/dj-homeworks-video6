@@ -5,6 +5,9 @@
     <title>Рецепты</title>
 </head>
 <body>
+<p>Блюдо: {{ dish }}</p>
+<p>Количество персон: {{ persons }}</p>
+<p>Инградиенты:</p>
 {% for ingredient, amount in recipe.items %}
     <p>{{ ingredient }}: {{ amount }}</p>
 {% empty %}
