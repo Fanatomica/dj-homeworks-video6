@@ -7,8 +7,8 @@ DATA = {
         'соль, ч.л.': 0.5,
     },
     'pasta': {
-        'макароны, г': 0.3,
-        'сыр, г': 0.05,
+        'макароны, кг': 0.3,
+        'сыр, кг': 0.05,
     },
     'buter': {
         'хлеб, ломтик': 1,
@@ -19,12 +19,48 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+def omlet(request):
+
+    dish = 'omlet'
+    choice = DATA[dish].copy()
+    serve = int(request.GET.get('servings', 1))
+
+    for ing, volume in choice.items():
+        volume = volume * serve
+        choice[ing] = volume
+    context = {
+      'recipe': choice, 'persons': serve, 'dish': 'омлет'
+    }
+    return render(request, 'calculator/index.html', context)
+
+
+def pasta(request):
+
+    dish = 'pasta'
+    choice = DATA[dish].copy()
+    serve = int(request.GET.get('servings', 1))
+
+    for ing, volume in choice.items():
+        volume = volume * serve
+        choice[ing] = volume
+    context = {
+      'recipe': choice, 'persons': serve, 'dish': 'паста'
+    }
+    return render(request, 'calculator/index.html', context)
+
+
+def buter(request):
+
+    dish = 'buter'
+    choice = DATA[dish].copy()
+    serve = int(request.GET.get('servings', 1))
+
+    for ing, volume in choice.items():
+        volume = volume * serve
+        choice[ing] = volume
+    context = {
+      'recipe': choice, 'persons': serve, 'dish': 'бутерброд'
+    }
+    return render(request, 'calculator/index.html', context)
+
