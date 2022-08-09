@@ -14,9 +14,10 @@ class Advertisement(models.Model):
 
     title = models.TextField()
     description = models.TextField(default='')
+    draft = models.BooleanField(default=False)
     status = models.TextField(
         choices=AdvertisementStatusChoices.choices,
-        default=AdvertisementStatusChoices.OPEN
+        #default=AdvertisementStatusChoices.OPEN
     )
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -28,3 +29,5 @@ class Advertisement(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+
+

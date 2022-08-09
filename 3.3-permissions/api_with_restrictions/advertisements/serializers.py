@@ -22,24 +22,24 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Advertisement
-        fields = ('id', 'title', 'description', 'creator',
+        fields = ('id', 'title', 'description', 'draft', 'creator',
                   'status', 'created_at', )
 
     def create(self, validated_data):
-        """Метод для создания"""
 
-        # Простановка значения поля создатель по-умолчанию.
-        # Текущий пользователь является создателем объявления
-        # изменить или переопределить его через API нельзя.
-        # обратите внимание на `context` – он выставляется автоматически
-        # через методы ViewSet.
-        # само поле при этом объявляется как `read_only=True`
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
 
     def validate(self, data):
-        """Метод для валидации. Вызывается при создании и обновлении."""
-
-        # TODO: добавьте требуемую валидацию
-
+        data["creator"] = self.context["request"].user
+        if data['status'] == 'OPEN':
+            statuses = Advertisement.objects.filter(creator=data["creator"])
+            k = 0
+            for stat in statuses:
+                if stat.status == "OPEN":
+                    k += 1
+            if k == 10:
+                raise serializers.ValidationError("Количество открытых объявлений 10,"
+                                                    "удалите одно объявление или измените его статус на CLOSED")
+            else: return data
         return data
