@@ -52,11 +52,21 @@ MIDDLEWARE = [
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+    #    'ENGINE': 'django.db.backends.postgresql',
+    #    'NAME': 'netology_models_list',
+    #    'HOST': '127.0.0.1',
+    #    'PORT': '5432',
+
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_models_list',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testDB.db',
+         # 'ENGINE': 'django.db.backends.postgresql',
+         # 'NAME': 'netology_import_phones',
+         # 'HOST': '127.0.0.1',
+         # 'PORT': '5432',
+         # 'USER': 'postgres',
+         # 'PASSWORD': 'pgAdmin',
     }
 }
 
