@@ -1,0 +1,32 @@
+GET http://127.0.0.1:8000/api/v1/products
+
+###
+
+POST http://127.0.0.1:8000/api/v1/products/
+Content-Type: application/json
+
+{
+  "title": "Помидор",
+  "description": "Лучшие помидоры на рынке"
+}
+###
+
+PATCH http://127.0.0.1:8000/api/v1/products/1/
+Content-Type: application/json
+
+{
+  "title": "Помидор",
+  "description": "Не лучшие огурцы на рынке"
+}
+###
+
+PUT http://127.0.0.1:8000/api/Sensor/
+
+###
+
+POST http://127.0.0.1:8000/api/Sensorcreate/
+
+
+###
+
+PATCH http://127.0.0.1:8000/api/Sensorupdate/5/
