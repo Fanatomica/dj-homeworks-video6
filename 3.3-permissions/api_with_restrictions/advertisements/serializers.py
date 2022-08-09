@@ -30,16 +30,29 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
 
+
+    # реализовано следующее поведение при валидации:
+    # если пользователь не обладает статусом админа - is_staff == True то
+    # пользователь не может создать объявление со статусом 'OPEN' ни по умолчанию, ни указав 'OPEN' явно
+    # если у него есть 10 и боолее(*) объявлений со статусом 'OPEN'
+    # пользователь не может изменить статус объявления на 'OPEN' если у него есть 10 и боолее(*) объявлений со статусом 'OPEN'
+    # пользователь всегда может создать объявление указав явно статус 'CLOSED'
+    # если пользователь is_staff == True, он может менять статус объявления на 'OPEN' у любого пользователя,
+    # даже если в этом случае их станет больше 10 (*)
+    # пользователь админ - is_staff == True может иметь больше 10 открытых собственных объявлений
+
+
     def validate(self, data):
-        data["creator"] = self.context["request"].user
-        if data['status'] == 'OPEN':
-            statuses = Advertisement.objects.filter(creator=data["creator"])
-            k = 0
-            for stat in statuses:
-                if stat.status == "OPEN":
-                    k += 1
-            if k == 10:
-                raise serializers.ValidationError("Количество открытых объявлений 10,"
-                                                    "удалите одно объявление или измените его статус на CLOSED")
-            else: return data
-        return data
+
+        if self.context["request"].user.is_staff == False:
+            count = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count()
+        else:
+            count = 1
+        if 'status' in data and data['status'] == 'CLOSED':
+            return data
+        else:
+            if count < 10:
+                return data
+            else:
+                raise serializers.ValidationError(f'Количество открытых объявлений {count} удалите одно или несколько объявлений или измените их статус на CLOSED')
+
