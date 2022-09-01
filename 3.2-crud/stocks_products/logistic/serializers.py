@@ -31,7 +31,7 @@ class StockSerializer(serializers.ModelSerializer):
 
         for posit in positions:
             posit['stock'] = stock
-            check = StockProduct.objects.create(**posit) #, defaults={'stock': stock}
+            check = StockProduct.objects.create(**posit)
             check.save()
 
 
@@ -50,9 +50,9 @@ class StockSerializer(serializers.ModelSerializer):
 
         for posit in positions:
             posit['stock'] = stock
-            check, created = StockProduct.objects.update_or_create(stock = posit['stock'], product=posit['product'], defaults={'quantity': posit['quantity'], 'price': posit['price']})  # , defaults={'quantity': posit['quantity'], 'price': posit['price']}
+            check, created = StockProduct.objects.update_or_create(stock = posit['stock'], product=posit['product'], defaults={'quantity': posit['quantity'], 'price': posit['price']})
             check.save()
-
+            
         # здесь вам надо обновить связанные таблицы
         # в нашем случае: таблицу StockProduct
         # с помощью списка positions
